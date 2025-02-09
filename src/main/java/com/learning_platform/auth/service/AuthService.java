@@ -11,7 +11,11 @@ import com.learning_platform.auth.repository.UserRepository;
 //import com.learning_platform.auth.utils.JWTUtils;
 import com.learning_platform.auth.utils.JWTUtils;
 import com.learning_platform.auth.utils.PasswordHashManager;
+
+import io.jsonwebtoken.Claims;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -67,11 +71,11 @@ public class AuthService {
 
     }
 
-    public UserPrincipal getUserDetailsByToken(String token){
+    public Claims getUserDetailsByToken(String token){
         String username = jwtUtils.extractUsername(token);
         Optional<User> userOptional = userRepository.findByUsername(username);
         if(userOptional.isPresent()){
-            return userMapper.convertUserToUserDetails(userOptional.get());
+            return jwtUtils.decodeJWTClaims(token);
         }
         throw new RuntimeException("User not found");
     }

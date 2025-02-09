@@ -1,9 +1,10 @@
 package com.learning_platform.auth.mapper;
 
 import com.learning_platform.auth.dtos.SignUpDto;
-import com.learning_platform.auth.models.User;
+
 import com.learning_platform.auth.dtos.UserPrincipal;
 
+import com.learning_platform.auth.models.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -22,8 +23,13 @@ public class UserMapper {
                 .build();
     }
 
-    public UserPrincipal convertUserToUserDetails(User user){
-        return UserPrincipal.builder().user(user).build();
+    public UserDetails convertUserToUserDetails(User user){
+        
+        return  org.springframework.security.core.userdetails.User.builder()
+        .username(user.getUsername())
+        .password(user.getPassword())
+        .authorities("USER")
+        .build();
     }
 
 

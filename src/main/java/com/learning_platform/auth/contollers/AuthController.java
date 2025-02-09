@@ -50,8 +50,8 @@ public class AuthController {
     }
 
     @GetMapping("/verifyToken")
-    public Object getUserDetailsByToken(@RequestHeader String authorization) {
-        return authService.getUserDetailsByToken(authorization);
+    public ResponseEntity<?> getUserDetailsByToken(@RequestHeader String authorization) {
+        return ResponseEntity.ok(authService.getUserDetailsByToken(authorization));
     }
     
 

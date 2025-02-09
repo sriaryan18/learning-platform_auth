@@ -58,6 +58,12 @@ public class JWTUtils {
         }   
         return extractClaim(token, Claims::getSubject);
     }
+    public Claims decodeJWTClaims(String token){
+        if(token.contains("Bearer ")){
+            token = token.replace("Bearer ","");
+        }  
+        return extractAllClaims(token);
+    }
 
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
@@ -72,6 +78,7 @@ public class JWTUtils {
 
                 .getBody();
     }
+
 
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
