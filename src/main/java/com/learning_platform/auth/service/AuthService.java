@@ -4,6 +4,7 @@ package com.learning_platform.auth.service;
 import com.learning_platform.auth.dtos.LoginDto;
 import com.learning_platform.auth.dtos.LoginResponseDto;
 import com.learning_platform.auth.dtos.SignUpDto;
+import com.learning_platform.auth.dtos.UserPrincipal;
 import com.learning_platform.auth.mapper.UserMapper;
 import com.learning_platform.auth.models.User;
 import com.learning_platform.auth.repository.UserRepository;
@@ -65,4 +66,14 @@ public class AuthService {
 
 
     }
+
+    public UserPrincipal getUserDetailsByToken(String token){
+        String username = jwtUtils.extractUsername(token);
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if(userOptional.isPresent()){
+            return userMapper.convertUserToUserDetails(userOptional.get());
+        }
+        throw new RuntimeException("User not found");
+    }
+
 }

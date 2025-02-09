@@ -53,6 +53,9 @@ public class JWTUtils {
     }
 
     public String extractUsername(String token) {
+        if(token.contains("Bearer ")){
+            token = token.replace("Bearer ","");
+        }   
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -66,6 +69,7 @@ public class JWTUtils {
                 .setSigningKey(getSignKey())
                 .build()
                 .parseClaimsJws(token)
+
                 .getBody();
     }
 
