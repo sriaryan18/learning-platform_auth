@@ -2,18 +2,23 @@ package com.learning_platform.auth.dtos;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
+
 import org.springframework.security.core.userdetails.UserDetails;
 
-
+import com.learning_platform.auth.models.User;
 
 import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 
 @Builder
+@Getter
+@Setter
 public class UserPrincipal implements UserDetails {
 
 
@@ -24,9 +29,12 @@ public class UserPrincipal implements UserDetails {
     }
 
 
+
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("USER"));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getCustomerType()));
     }
+    
 
 
     public String getPassword() {

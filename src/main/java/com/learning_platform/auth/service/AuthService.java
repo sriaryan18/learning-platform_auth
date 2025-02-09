@@ -49,7 +49,8 @@ public class AuthService {
             User user = userOptional.get();
             String decryptedPassword = passwordHashManager.decrypt(user.getPassword());
             if(decryptedPassword.equals(loginDto.getPassword())){
-                String access_token = jwtUtils.generateToken(userOptional.get());
+                UserPrincipal userPrincipal = UserPrincipal.builder().user(user).build();
+                String access_token = jwtUtils.generateToken(userPrincipal);
                 return LoginResponseDto.builder()
                         .access_token(access_token).build();
             }
@@ -63,7 +64,8 @@ public class AuthService {
         String encryptedPassword = passwordHashManager.encrypt(signUpDto.getPassword());
         signUpDto.setPassword(encryptedPassword);
         User savedEntity =  userRepository.save(userMapper.convertSignUpDtoToUser(signUpDto));
-        String access_token = jwtUtils.generateToken(savedEntity);
+        UserPrincipal userPrincipal = UserPrincipal.builder().user(savedEntity).build();
+        String access_token = jwtUtils.generateToken(userPrincipal);
 
         return LoginResponseDto.builder()
                 .access_token(access_token).build();

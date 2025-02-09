@@ -1,6 +1,7 @@
 package com.learning_platform.auth.utils;
 
 import com.learning_platform.auth.constants.AppConstants;
+import com.learning_platform.auth.dtos.UserPrincipal;
 import com.learning_platform.auth.models.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -10,11 +11,14 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
 public class JWTUtils {
@@ -24,11 +28,15 @@ public class JWTUtils {
     @Value("${jwt.expiration}")
     private Long expiration;
 
-    public String generateToken(User userDetails) {
+    public String generateToken(UserPrincipal userDetails) {
         Map<String, Object> claims = new HashMap<>();
         // Adding CLAIMS
-        claims.put(AppConstants.CLAIM_SUBSCRIPTION,userDetails.getPaymentStatus());
-        claims.put(AppConstants.CLAIM_ROLE,userDetails.getCustomerType());
+        claims.put(AppConstants.CLAIM_SUBSCRIPTION,userDetails.getUser().getPaymentStatus());
+        
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(grantedAuthority -> grantedAuthority.getAuthority())
+                .collect(Collectors.toList());
+        claims.put(AppConstants.CLAIM_ROLE, roles);
         return createToken(claims, userDetails.getUsername());
     }
 
