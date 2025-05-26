@@ -46,8 +46,11 @@ public class JWTUtils {
         return createToken(claims, userDetails.getUsername(), tokenType);
     }
 
-    private String createToken(Map<String, Object> claims, String subject, TokenType tokenType) {
-        long expiryInSeconds = tokenType == TokenType.ACCESS ? accessTokenExpiration : refreshTokenExpiration;
+private String createToken(Map<String, Object> claims, String subject, TokenType tokenType) {
+    if (tokenType == null) {
+        throw new IllegalArgumentException("TokenType cannot be null");
+    }
+     long expiryInSeconds = tokenType == TokenType.ACCESS ? accessTokenExpiration : refreshTokenExpiration;
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
@@ -67,18 +70,18 @@ public class JWTUtils {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    public String extractUsername(String token) {
-        if(token.contains(BEARER_PREFIX)){
-            token = token.replace(BEARER_PREFIX, "");
-        }   
-        return extractClaim(token, Claims::getSubject);
-    }
-    public Claims decodeJWTClaims(String token){
-        if(token.contains(BEARER_PREFIX)){
-            token = token.replace(BEARER_PREFIX, "");
-        }  
-        return extractAllClaims(token);
-    }
+public String extractUsername(String token) {
+    if(token.startsWith(BEARER_PREFIX)){
+        token = token.substring(BEARER_PREFIX.length());
+     }   
+     return extractClaim(token, Claims::getSubject);
+ }
+public Claims decodeJWTClaims(String token){
+    if(token.startsWith(BEARER_PREFIX)){
+        token = token.substring(BEARER_PREFIX.length());
+     }  
+     return extractAllClaims(token);
+ }
 
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
