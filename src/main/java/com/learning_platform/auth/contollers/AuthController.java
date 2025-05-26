@@ -19,14 +19,12 @@ public class AuthController {
     @Autowired
     AuthService authService;
 
-
-
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto loginDto){
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginDto loginDto) {
 
         try {
-            LoginResponseDto loginResponseDto =  authService.handleLogin(loginDto);
-            return new ResponseEntity<>(loginResponseDto,HttpStatus.OK);
+            LoginResponseDto loginResponseDto = authService.handleLogin(loginDto);
+            return new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -34,12 +32,12 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<LoginResponseDto> handleSignUp(@RequestBody SignUpDto signUpDto){
-        try{
-        LoginResponseDto loginDto = authService.handleSignUp(signUpDto);
-        return new ResponseEntity<LoginResponseDto>(loginDto, HttpStatus.CREATED);
-        }catch (Exception e){
-            return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+    public ResponseEntity<LoginResponseDto> handleSignUp(@RequestBody SignUpDto signUpDto) {
+        try {
+            LoginResponseDto loginDto = authService.handleSignUp(signUpDto);
+            return new ResponseEntity<LoginResponseDto>(loginDto, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
 
     }
@@ -50,9 +48,8 @@ public class AuthController {
     }
 
     @GetMapping("test")
-    public String test(){
+    public String test() {
         return "TEST";
     }
-    
 
 }

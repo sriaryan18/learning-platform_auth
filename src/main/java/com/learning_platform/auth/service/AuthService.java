@@ -11,11 +11,11 @@ import com.learning_platform.auth.repository.UserRepository;
 //import com.learning_platform.auth.utils.JWTUtils;
 import com.learning_platform.auth.utils.JWTUtils;
 import com.learning_platform.auth.utils.PasswordHashManager;
+import com.learning_platform.auth.utils.TokenType;
 
 import io.jsonwebtoken.Claims;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
+
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -23,22 +23,23 @@ import java.util.Optional;
 @Service
 public class AuthService {
 
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    PasswordHashManager passwordHashManager;
-
-
-    @Autowired
-    UserMapper userMapper;
-
-    @Autowired
-    JWTUtils jwtUtils;
+    private final UserRepository userRepository;
+    private final PasswordHashManager passwordHashManager;
+    private final UserMapper userMapper;
+    private final JWTUtils jwtUtils;
 
 
-
-
+    public AuthService(
+        UserRepository userRepository,
+        PasswordHashManager passwordHashManager,
+        UserMapper userMapper,
+        JWTUtils jwtUtils
+    ) {
+        this.userRepository = userRepository;
+        this.passwordHashManager = passwordHashManager;
+        this.userMapper = userMapper;
+        this.jwtUtils = jwtUtils;
+    }
 
     public LoginResponseDto handleLogin(LoginDto loginDto){
 
@@ -50,9 +51,12 @@ public class AuthService {
             String decryptedPassword = passwordHashManager.decrypt(user.getPassword());
             if(decryptedPassword.equals(loginDto.getPassword())){
                 UserPrincipal userPrincipal = UserPrincipal.builder().user(user).build();
-                String access_token = jwtUtils.generateToken(userPrincipal);
+                String accessToken = jwtUtils.generateToken(userPrincipal, TokenType.ACCESS);
+                String refreshToken = jwtUtils.generateToken(userPrincipal, TokenType.REFRESH);
                 return LoginResponseDto.builder()
-                        .access_token(access_token).build();
+                        .accessToken(accessToken)
+                        .refreshToken(refreshToken)
+                        .build();
             }
 
         }
@@ -65,10 +69,13 @@ public class AuthService {
         signUpDto.setPassword(encryptedPassword);
         User savedEntity =  userRepository.save(userMapper.convertSignUpDtoToUser(signUpDto));
         UserPrincipal userPrincipal = UserPrincipal.builder().user(savedEntity).build();
-        String access_token = jwtUtils.generateToken(userPrincipal);
+        String accessToken = jwtUtils.generateToken(userPrincipal, TokenType.ACCESS);
+        String refreshToken = jwtUtils.generateToken(userPrincipal, TokenType.REFRESH);
 
         return LoginResponseDto.builder()
-                .access_token(access_token).build();
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
 
 
     }
