@@ -15,12 +15,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Builder
 @Getter
 @Setter
 public class UserPrincipal implements UserDetails {
-
 
     private User user;
 
@@ -28,39 +26,41 @@ public class UserPrincipal implements UserDetails {
         this.user = user;
     }
 
-
+    public User getUser() {
+        return User.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .customerType(user.getCustomerType())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .paymentStatus(user.getPaymentStatus())
+                .build();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + user.getCustomerType()));
     }
-    
-
 
     public String getPassword() {
         return user.getPassword();
     }
 
-
     public String getUsername() {
         return user.getUsername();
     }
 
-  
     public boolean isAccountNonExpired() {
         return true;
     }
-
 
     public boolean isAccountNonLocked() {
         return true;
     }
 
-
     public boolean isCredentialsNonExpired() {
         return true;
     }
-
 
     public boolean isEnabled() {
         return true;

@@ -43,6 +43,7 @@ public class JWTUtils {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
         claims.put(AppConstants.CLAIM_ROLE, roles);
+        claims.put(AppConstants.CLAIM_USER, userDetails.getUser());
         return createToken(claims, userDetails.getUsername(), tokenType);
     }
 

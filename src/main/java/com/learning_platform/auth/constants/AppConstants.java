@@ -5,4 +5,5 @@ public final class AppConstants {
 
     public static String CLAIM_SUBSCRIPTION="subscription";
     public static String CLAIM_ROLE="roles";
+    public static String CLAIM_USER="user";
 }
