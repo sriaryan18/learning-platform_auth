@@ -10,13 +10,14 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.server.Cookie.SameSite;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth/api/v1")
-@CrossOrigin("http://localhost:3000")
 public class AuthController {
 
     @Autowired
@@ -43,6 +44,11 @@ public class AuthController {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("TEST");
     }
 
     @PostMapping("/signup")
