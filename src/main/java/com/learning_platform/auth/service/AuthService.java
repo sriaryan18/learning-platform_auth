@@ -56,6 +56,7 @@ public class AuthService {
                 return LoginResponseDto.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
+                        .user(userPrincipal) 
                         .build();
             }
 
