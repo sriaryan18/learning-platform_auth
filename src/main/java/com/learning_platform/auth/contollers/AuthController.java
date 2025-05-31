@@ -46,10 +46,7 @@ public class AuthController {
 
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<String> test() {
-        return ResponseEntity.ok("TEST");
-    }
+  
 
     @PostMapping("/signup")
     public ResponseEntity<LoginResponseDto> handleSignUp(@RequestBody SignUpDto signUpDto) {
