@@ -3,5 +3,7 @@
 
     <include file="db/migrations/changelog/inital-migration.xml" />
 
-
+    <include file="db/migrations/changelog/user-attributes-update.xml" />
+    <include file="db/migrations/changelog/emailid-phonenumber.xml" />
+    <include file="db/migrations/changelog/update-organization-id-default.xml" />
 </databaseChangeLog>

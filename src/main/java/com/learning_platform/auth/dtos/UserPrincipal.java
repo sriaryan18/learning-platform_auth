@@ -3,7 +3,7 @@ package com.learning_platform.auth.dtos;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
+import java.time.format.DateTimeFormatter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -25,21 +25,26 @@ public class UserPrincipal implements UserDetails {
     public UserPrincipal(User user) {
         this.user = user;
     }
-
-    public User getUser() {
-        return User.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .customerType(user.getCustomerType())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .paymentStatus(user.getPaymentStatus())
-                .build();
-    }
+    // public User getUser() {
+    //     return User.builder()
+    //             .id(user.getId())
+    //             .username(user.getUsername())
+    //             .firstName(user.getFirstName())
+    //             .lastName(user.getLastName())
+    //             .email(user.getEmail())
+    //             .phoneNumber(user.getPhoneNumber())
+    //             .role(user.getRole())
+    //             .paymentType(user.getPaymentType())
+    //             .organizationId(user.getOrganizationId())
+    //             .organizationName(user.getOrganizationName())
+    //             .createdAt(user.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+    //             .build();
+    // }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getCustomerType()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole())
+                );
     }
 
     public String getPassword() {

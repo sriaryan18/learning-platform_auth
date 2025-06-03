@@ -1,0 +1,24 @@
+
+
+    <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+
+   
+ <changeSet id="add-email-and-phone-number-columns" author="aryan">
+        <addColumn tableName="auth">
+            <column name="email" type="varchar(255)" defaultValueComputed="''">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="varchar(255)" defaultValueComputed="''">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+ <changeSet id="unique-constraint-on-email-and-organization-id-username" author="aryan">
+      <addUniqueConstraint tableName="auth" columnNames="email, organization_id, username" constraintName="unique_email_organization_id_username" />
+    </changeSet>
+   
+</databaseChangeLog>

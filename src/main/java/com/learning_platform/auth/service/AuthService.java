@@ -56,7 +56,7 @@ public class AuthService {
                 return LoginResponseDto.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
-                        .user(userPrincipal) 
+                        .user(userMapper.convertUserToUserDto(user)) 
                         .build();
             }
 
@@ -76,6 +76,7 @@ public class AuthService {
         return LoginResponseDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .user(userMapper.convertUserToUserDto(savedEntity))
                 .build();
 
 

@@ -1,12 +1,15 @@
 package com.learning_platform.auth.models;
 
 
-import com.learning_platform.auth.enums.CustomerType;
+import com.learning_platform.auth.enums.Role;
+import com.learning_platform.auth.enums.PaymentType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity(name = "auth")
 @Data
@@ -23,12 +26,20 @@ private String username;
 private String password;
 private String firstName;
 private String lastName;
-@Column(name = "payment_status")
-private String paymentStatus;
+private String email;
+private String phoneNumber;
+@Enumerated(EnumType.STRING)
+@Column(name = "payment_type")
+private PaymentType paymentType; 
 
-@Column(name = "customer_type")
-private CustomerType customerType; // Individual , Group
+@Enumerated(EnumType.STRING)
+@Column(name = "role")
+private Role role;
 
-// add user attributes here
+@Column(name = "created_at")
+private LocalDateTime createdAt;
+private String organizationId;
+
+private String organizationName;
 
 }

@@ -49,9 +49,15 @@ public class AuthController {
   
 
     @PostMapping("/signup")
-    public ResponseEntity<LoginResponseDto> handleSignUp(@RequestBody SignUpDto signUpDto) {
+    public ResponseEntity<LoginResponseDto> handleSignUp(@RequestBody SignUpDto signUpDto, HttpServletResponse response) {
         try {
             LoginResponseDto loginDto = authService.handleSignUp(signUpDto);
+            Cookie cookie = new Cookie("token", loginDto.getAccessToken());
+            cookie.setHttpOnly(true);
+            cookie.setSecure(false);
+            cookie.setMaxAge(accessExpiration);
+            cookie.setPath("/");
+            response.addCookie(cookie);
             return new ResponseEntity<LoginResponseDto>(loginDto, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);

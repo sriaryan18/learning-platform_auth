@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 
 import java.security.Key;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -37,13 +38,20 @@ public class JWTUtils {
     public String generateToken(UserPrincipal userDetails, TokenType tokenType) {
         Map<String, Object> claims = new HashMap<>();
         // Adding CLAIMS
-        claims.put(AppConstants.CLAIM_SUBSCRIPTION,userDetails.getUser().getPaymentStatus());
-        
+       
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
         claims.put(AppConstants.CLAIM_ROLE, roles);
-        claims.put(AppConstants.CLAIM_USER, userDetails.getUser());
+        claims.put(AppConstants.CLAIM_ORGANIZATION_ID, userDetails.getUser().getOrganizationId());
+        claims.put(AppConstants.CLAIM_ORGANIZATION_NAME, userDetails.getUser().getOrganizationName());
+        claims.put(AppConstants.CLAIM_PAYMENT_TYPE, userDetails.getUser().getPaymentType());
+        claims.put(AppConstants.CLAIM_CREATED_AT, userDetails.getUser().getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        claims.put(AppConstants.CLAIM_ID, userDetails.getUser().getId());
+        claims.put(AppConstants.CLAIM_EMAIL, userDetails.getUser().getEmail());
+        claims.put(AppConstants.CLAIM_PHONE_NUMBER, userDetails.getUser().getPhoneNumber());
+        // claims.put(AppConstants.CLAIM_USER, userDetails.getUser());
+
         return createToken(claims, userDetails.getUsername(), tokenType);
     }
 
