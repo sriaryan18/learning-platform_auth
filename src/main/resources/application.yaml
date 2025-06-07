@@ -21,13 +21,37 @@ spring:
 logging:
   level:
     root: INFO
+    org.springframework.security: INFO
+    org.springframework.web.servlet.DispatcherServlet: INFO
+    org.springframework.security.web: INFO
 jwt:
-  access-expiration: 3600
-  refresh-expiration: 86400
+  access-expiration: 3600000    # 1 hour in milliseconds
+  refresh-expiration: 86400000  # 24 hours in milliseconds
   secret: "GibVa0MF2Wg29IVvY+kRFDf3xG6GVog9V5UocoUab6s="
 
 
+common-utils:
+  security:
+    permit-all: false
+    unprotected-endpoints:
+      - "/auth/api/v1/login"
+      - "/auth/api/v1/signup"
+      - "/auth/api/v1/test2"
+      - "/actuator/**"
+      - "/debug/**"
+
 encryption-key: "e0ec288d28ef0b99d9df6bb51abe59fca34d276d8f9f170e3853c3db216ff085f"
+
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
 
 
 

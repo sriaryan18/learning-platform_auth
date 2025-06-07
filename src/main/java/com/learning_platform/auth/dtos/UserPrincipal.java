@@ -1,74 +1,52 @@
 package com.learning_platform.auth.dtos;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.time.format.DateTimeFormatter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-import org.springframework.security.core.userdetails.UserDetails;
-
 import com.learning_platform.auth.models.User;
-
+import java.util.Collection;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Builder
 @Getter
 @Setter
 public class UserPrincipal implements UserDetails {
 
-    private User user;
+  private User user;
 
-    public UserPrincipal(User user) {
-        this.user = user;
-    }
-    // public User getUser() {
-    //     return User.builder()
-    //             .id(user.getId())
-    //             .username(user.getUsername())
-    //             .firstName(user.getFirstName())
-    //             .lastName(user.getLastName())
-    //             .email(user.getEmail())
-    //             .phoneNumber(user.getPhoneNumber())
-    //             .role(user.getRole())
-    //             .paymentType(user.getPaymentType())
-    //             .organizationId(user.getOrganizationId())
-    //             .organizationName(user.getOrganizationName())
-    //             .createdAt(user.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-    //             .build();
-    // }
+  public UserPrincipal(User user) {
+    this.user = user;
+  }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole())
-                );
-    }
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
+  }
 
-    public String getPassword() {
-        return user.getPassword();
-    }
+  public String getPassword() {
+    return user.getPassword();
+  }
 
-    public String getUsername() {
-        return user.getUsername();
-    }
+  public String getUsername() {
+    return user.getUsername();
+  }
 
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+  public boolean isAccountNonExpired() {
+    return true;
+  }
 
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+  public boolean isAccountNonLocked() {
+    return true;
+  }
 
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
 
-    public boolean isEnabled() {
-        return true;
-    }
-
+  public boolean isEnabled() {
+    return true;
+  }
 }
