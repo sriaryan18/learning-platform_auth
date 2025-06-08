@@ -20,7 +20,7 @@ spring:
 
 logging:
   level:
-    root: INFO
+    root: DEBUG
     org.springframework.security: INFO
     org.springframework.web.servlet.DispatcherServlet: INFO
     org.springframework.security.web: INFO
@@ -39,6 +39,9 @@ common-utils:
       - "/auth/api/v1/test2"
       - "/actuator/**"
       - "/debug/**"
+      - "/v3/api-docs/**"
+      - "/swagger-ui/**"
+      - "/swagger-ui.html"
 
 encryption-key: "e0ec288d28ef0b99d9df6bb51abe59fca34d276d8f9f170e3853c3db216ff085f"
 
@@ -54,4 +57,11 @@ management:
       show-details: always
 
 
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+  packages-to-scan: com.learning_platform.auth.contollers
 

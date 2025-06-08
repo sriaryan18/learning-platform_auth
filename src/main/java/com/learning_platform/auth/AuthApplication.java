@@ -10,10 +10,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @SpringBootApplication
 @EnableWebSecurity
+@EnableMethodSecurity
 @ComponentScan(basePackages = {"com.learning_platform.auth", "com.learning_platform.utils"})
 @Import({
   RestTemplateConfig.class,
