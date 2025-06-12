@@ -1,6 +1,8 @@
 server:
   port: 8081
 
+
+
 spring:
   application:
     name: learning-platform-auth
@@ -20,7 +22,7 @@ spring:
 
 logging:
   level:
-    root: DEBUG
+    root: INFO
     org.springframework.security: INFO
     org.springframework.web.servlet.DispatcherServlet: INFO
     org.springframework.security.web: INFO

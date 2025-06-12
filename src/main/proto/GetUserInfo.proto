@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.learning_platform.grpc";
+option java_outer_classname = "GetUserInfoProto";
+
+package get_user_info;
+
+service GetUsersInfo {
+  rpc GetUsersInfo (GetUsersInfoRequest) returns (GetUsersInfoReply) {}
+}
+
+message GetUsersInfoRequest {
+  repeated string user_ids = 1;
+}
+
+message UserInfo {
+  string id = 1;
+  string username = 2;
+  string email = 3;
+  string role = 4;
+  string organization_id = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
+message GetUsersInfoReply {
+  repeated UserInfo user_info = 1;
+}
