@@ -7,7 +7,7 @@ option java_outer_classname = "GetUserInfoProto";
 package get_user_info;
 
 service GetUsersInfo {
-  rpc GetUsersInfo (GetUsersInfoRequest) returns (GetUsersInfoReply) {}
+  rpc GetUsersInfo (GetUsersInfoRequest) returns (GetUsersInfoReply);
 }
 
 message GetUsersInfoRequest {
@@ -17,11 +17,13 @@ message GetUsersInfoRequest {
 message UserInfo {
   string id = 1;
   string username = 2;
-  string email = 3;
-  string role = 4;
-  string organization_id = 5;
-  string created_at = 6;
-  string updated_at = 7;
+  string first_name = 3;
+  string last_name = 4;
+  string email = 5;
+  string role = 6;
+  string organization_id = 7;
+  string created_at = 8;
+  string updated_at = 9;
 }
 message GetUsersInfoReply {
   repeated UserInfo user_info = 1;

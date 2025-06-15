@@ -25,19 +25,20 @@ public class GetUsersInfoService extends GetUsersInfoImplBase {
       GetUsersInfoRequest request, StreamObserver<GetUsersInfoReply> responseObserver) {
     List<User> users = (List<User>) userRepository.findAllById(request.getUserIdsList());
 
-    List<UserInfo> userInfos =
-        users.stream()
-            .map(
-                (User user) ->
-                    UserInfo.newBuilder()
-                        .setId(user.getId())
-                        .setUsername(user.getUsername())
-                        .setEmail(user.getEmail())
-                        .setRole(user.getRole().name())
-                        .setOrganizationId(user.getOrganizationId())
-                        .setCreatedAt(user.getCreatedAt().toString())
-                        .build())
-            .collect(Collectors.toList());
+    List<UserInfo> userInfos = users.stream()
+        .map(
+            (User user) -> UserInfo.newBuilder()
+                .setId(user.getId())
+                .setUsername(user.getUsername())
+                .setEmail(user.getEmail())
+                .setRole(user.getRole().name())
+                .setOrganizationId(user.getOrganizationId())
+                .setCreatedAt(user.getCreatedAt().toString())
+                .setLastName(user.getLastName())
+                .setFirstName(user.getFirstName())
+
+                .build())
+        .collect(Collectors.toList());
 
     responseObserver.onNext(GetUsersInfoReply.newBuilder().addAllUserInfo(userInfos).build());
     responseObserver.onCompleted();
